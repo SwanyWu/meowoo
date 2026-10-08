@@ -3,30 +3,73 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Welcome to meowoo.me — personal site of Swany Wu." />
+    <meta
+      name="description"
+      content="meowoo.me — Sin & Dine, Sweat & Regret, Earworms & Crimes."
+    />
     <title>meowoo.me</title>
     <link rel="stylesheet" href="styles.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Sans:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
   </head>
   <body>
-    <main class="page">
-      <div class="glow" aria-hidden="true"></div>
-      <header class="hero">
-        <p class="eyebrow">meowoo.me</p>
-        <h1>Hello, I’m Swany.</h1>
+    <div class="glow glow--home" aria-hidden="true"></div>
+    <header class="site-header">
+      <a class="logo" href="index.html">meowoo.me</a>
+      <nav class="site-nav" aria-label="Main">
+        <a href="sin-and-dine.html">Sin &amp; Dine</a>
+        <a href="sweat-and-regret.html">Sweat &amp; Regret</a>
+        <a href="earworms.html">Earworms &amp; Crimes</a>
+      </nav>
+    </header>
+
+    <main class="page page--home">
+      <section class="hero hero--home">
+        <p class="eyebrow">Swany’s three-ring circus</p>
+        <h1>Feed the body.<br />Break the body.<br />Blast the ears.</h1>
         <p class="lead">
-          This is my corner of the web — a work in progress. More soon.
+          Three corners of my life, documented with questionable judgment and
+          full commitment.
         </p>
-      </header>
-      <footer class="site-footer">
-        <span>&copy; <span id="year"></span> Swany Wu</span>
-      </footer>
+      </section>
+
+      <section class="modules" aria-label="Site sections">
+        <a class="module-card module-card--nom" href="sin-and-dine.html">
+          <span class="module-card__tag">nom</span>
+          <h2 class="module-card__title">Sin &amp; Dine</h2>
+          <p class="module-card__desc">
+            Food I cook, food I inhale, and recipes I’ll pretend were “easy.”
+          </p>
+          <span class="module-card__cta">Enter the kitchen →</span>
+        </a>
+
+        <a class="module-card module-card--sport" href="sweat-and-regret.html">
+          <span class="module-card__tag">sport</span>
+          <h2 class="module-card__title">Sweat &amp; Regret</h2>
+          <p class="module-card__desc">
+            Sports I do, races I survive, and muscles that file complaints.
+          </p>
+          <span class="module-card__cta">Feel the burn →</span>
+        </a>
+
+        <a class="module-card module-card--music" href="earworms.html">
+          <span class="module-card__tag">music</span>
+          <h2 class="module-card__title">Earworms &amp; Crimes</h2>
+          <p class="module-card__desc">
+            Tracks I love, albums on repeat, and taste I will not apologize for.
+          </p>
+          <span class="module-card__cta">Turn it up →</span>
+        </a>
+      </section>
     </main>
+
+    <footer class="site-footer">
+      <span>&copy; <span id="year"></span> Swany Wu</span>
+    </footer>
     <script>
       document.getElementById("year").textContent = new Date().getFullYear();
     </script>
