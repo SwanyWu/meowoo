@@ -22,14 +22,19 @@
   --accent-soft: rgba(255, 159, 107, 0.14);
 }
 
-.theme-sport {
+.theme-stomp {
   --accent: #7dffb2;
   --accent-soft: rgba(125, 255, 178, 0.12);
 }
 
-.theme-music {
+.theme-ramble {
   --accent: #c89bff;
   --accent-soft: rgba(200, 155, 255, 0.14);
+}
+
+.theme-looksie {
+  --accent: #ffd56b;
+  --accent-soft: rgba(255, 213, 107, 0.14);
 }
 
 html {
@@ -86,6 +91,11 @@ a:hover {
       ellipse at 50% 0%,
       rgba(125, 255, 178, 0.08) 0%,
       transparent 55%
+    ),
+    radial-gradient(
+      ellipse at 65% 0%,
+      rgba(255, 213, 107, 0.08) 0%,
+      transparent 45%
     );
 }
 
@@ -188,8 +198,14 @@ h1 {
 
 @media (min-width: 640px) {
   .modules {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     align-items: stretch;
+  }
+}
+
+@media (min-width: 900px) {
+  .modules {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
@@ -216,12 +232,16 @@ h1 {
   border-color: rgba(255, 159, 107, 0.35);
 }
 
-.module-card--sport:hover {
+.module-card--stomp:hover {
   border-color: rgba(125, 255, 178, 0.35);
 }
 
-.module-card--music:hover {
+.module-card--ramble:hover {
   border-color: rgba(200, 155, 255, 0.35);
+}
+
+.module-card--looksie:hover {
+  border-color: rgba(255, 213, 107, 0.35);
 }
 
 .module-card__tag {
@@ -245,12 +265,16 @@ h1 {
   color: #ff9f6b;
 }
 
-.module-card--sport .module-card__title {
+.module-card--stomp .module-card__title {
   color: #7dffb2;
 }
 
-.module-card--music .module-card__title {
+.module-card--ramble .module-card__title {
   color: #c89bff;
+}
+
+.module-card--looksie .module-card__title {
+  color: #ffd56b;
 }
 
 .module-card__desc {
