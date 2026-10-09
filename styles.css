@@ -352,6 +352,10 @@ h1 {
   transform: translateY(-1px);
 }
 
+.theme-nom .post-card:hover {
+  border-color: rgba(255, 159, 107, 0.35);
+}
+
 .post-card__date {
   display: block;
   font-size: 0.78rem;
@@ -379,6 +383,227 @@ h1 {
 
 .page--post {
   max-width: 40rem;
+}
+
+.page--wide {
+  max-width: 52rem;
+}
+
+.assembly-line {
+  margin: 2rem 0 2.5rem;
+  padding: 1.5rem;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: linear-gradient(
+    165deg,
+    rgba(255, 159, 107, 0.08) 0%,
+    var(--surface) 45%
+  );
+}
+
+.assembly-map {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem 0.5rem;
+  margin-bottom: 1.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.assembly-map__node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 5.5rem;
+  padding: 0.4rem 0.65rem;
+  border-radius: 8px;
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  opacity: 0.75;
+}
+
+.assembly-map__node.is-filled {
+  border-style: solid;
+  border-color: rgba(255, 159, 107, 0.45);
+  opacity: 1;
+}
+
+.assembly-map__label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.assembly-map__value {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text);
+  text-align: center;
+}
+
+.assembly-map__arrow {
+  color: var(--accent);
+  font-size: 1.1rem;
+  opacity: 0.8;
+}
+
+.assembly-stations {
+  display: grid;
+  gap: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .assembly-stations {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.assembly-station__title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.25rem;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.assembly-station__step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.assembly-station__hint {
+  margin: 0 0 0.65rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.assembly-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.assembly-chip {
+  padding: 0.45rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease,
+    transform 0.12s ease;
+}
+
+.assembly-chip:hover {
+  border-color: rgba(255, 159, 107, 0.45);
+  background: var(--surface-hover);
+}
+
+.assembly-chip.is-selected {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--text);
+  transform: translateY(-1px);
+}
+
+.assembly-output {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+  opacity: 0.92;
+  transition: opacity 0.2s ease;
+}
+
+.assembly-output.is-ready {
+  opacity: 1;
+}
+
+.assembly-path {
+  margin: 0 0 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-align: center;
+}
+
+.assembly-output__stage {
+  display: grid;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+@media (min-width: 560px) {
+  .assembly-output__stage {
+    grid-template-columns: minmax(140px, 200px) 1fr;
+  }
+}
+
+.assembly-art {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.assembly-art svg {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+}
+
+.assembly-hint {
+  margin: 0 0 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.assembly-name {
+  margin: 0 0 0.35rem;
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.assembly-region {
+  margin: 0 0 0.65rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.assembly-blurb {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+.post-body--after {
+  margin-top: 0.5rem;
 }
 
 .post-header {
