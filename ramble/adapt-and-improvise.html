@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="On AI at work — Adapt and Improvise."
+    />
+    <title>Adapt and Improvise · ramble · meowoo.me</title>
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="theme-ramble">
+    <div class="glow" aria-hidden="true"></div>
+    <header class="site-header">
+      <a class="logo" href="../index.html">meowoo.me</a>
+      <nav class="site-nav" aria-label="Main">
+        <a href="../nom.html">nom</a>
+        <a href="../stomp.html">stomp</a>
+        <a class="is-active" href="../ramble.html" aria-current="page">ramble</a>
+        <a href="../looksie.html">looksie</a>
+      </nav>
+    </header>
+
+    <main class="page page--post">
+      <article class="post">
+        <header class="post-header">
+          <p class="post-meta">
+            <a class="post-meta__section" href="../ramble.html">ramble</a>
+            <span class="post-meta__sep" aria-hidden="true">·</span>
+            <time datetime="2026-10-10">10 Oct 2026</time>
+          </p>
+          <h1>Adapt and Improvise</h1>
+        </header>
+
+        <div class="post-body">
+          <h2>It is getting real!</h2>
+          <p>
+            Six years ago, if you'd told me, “AI is coming for your job,” I'd
+            have laughed. It wrote simple, even buggy code based on whatever I
+            copy-pasted into it. Meanwhile, I was doing the real stuff:
+            figuring out requirements, reviewing code, juggling context, and
+            shipping releases. Fast-forward to today, I can type one sentence
+            into a chat and my agent retrieves a Jira ticket, implements the
+            requirements in advanced syntax, adds some tests with full coverage,
+            publishes the documentation to Confluence, it'll even notify
+            clients/users if asked. I spend a good chunk of my day talking to
+            AI, and honestly, I still get mind-blown by how smart it can be.
+          </p>
+          <p>
+            The vibe has flipped too. Back then, saying “according to ChatGPT”
+            got you weird looks. Last month, I asked a staff engineer about a
+            relational schema, and he said, “Have you asked the AI yet?” Yep. And
+            remember when I hated that people requested Copilot reviews on my
+            PRs? Now it's just part of the standardized workflow (in some
+            companies).
+          </p>
+          <p>
+            Oh, and I'm getting spoiled too. I once asked AI how many characters
+            were in “ThisLooongAssString.” I could have counted. That's the
+            moment I realised my brain was quietly outsourcing the most
+            ridiculous little tasks.
+          </p>
+          <p>
+            Somewhere along the way, I went from “ugh” to “wow” and barely
+            noticed the switch.
+          </p>
+
+          <h2>But not perfect!!</h2>
+          <p>AI is far from mastering every aspect of my work.</p>
+          <p>
+            Production isn't a playground. When a database goes down, a pod keeps
+            crash-looping, a dead-letter queue backs up, or sudden traffic
+            spikes demand extra replicas, real stakes are involved. I doubt many
+            engineers would be bold enough to give AI agents (temporary)
+            permission to restart production services, alter infrastructure, or
+            run arbitrary production database queries.
+          </p>
+          <p>
+            This is why we build safeguards between AI agents and production:
+            read-only access, constrained query scopes, tightly scoped API
+            wrappers, or requiring a human in the loop before executing anything
+            destructive.
+          </p>
+          <p>
+            And if an entire data center loses power? AI can help coordinate the
+            response, but a human still has to deal with the physical
+            infrastructure. At least AI can help draft the post-mortem afterward.
+          </p>
+          <p>
+            AI hasn't mastered every repository setup, either. In my experience,
+            it handles systematic refactoring (e.g. standardizing error handling,
+            changing API contracts) noticeably better in a monorepo than polyrepo
+            structure. (Though to be fair, I might still be refining my workflow,
+            as I see engineers praising synthetic monorepo tooling like Nx
+            Polygraph).
+          </p>
+          <p>
+            Ultimately, AI lacks legal accountability and organizational
+            authority. End-to-end sanity checks, integration tests, and
+            compliance audits aren't just technical exercises—they're exercises
+            in cross-team orchestration, environment alignment, and stakeholder
+            management. Someone still has to chase teams, negotiate trade-offs,
+            and take ultimate responsibility for decisions.
+          </p>
+          <p>That someone is still human.</p>
+
+          <h2>Suppose it's perfect?</h2>
+          <p>
+            The Industrial Revolution didn't make craftsmanship disappear.
+            Suppose AI eventually does most of what we're paid to do. Maybe we'd
+            build software just for fun instead. People still bake bread when
+            buying a loaf is easier. We hand shape clay sculptures when cheap
+            ones are available at IKEA. We spend hours practising an instrument
+            when listening to a recording would be much more convenient. We even
+            spend high price building our own mechanical keyboards and Nixie tube
+            clocks. Funny dude just keeps a chives-chopping streak on reddit.
+          </p>
+          <p>
+            But there's a catch: we'd need to be able to afford that life.
+            Because productivity gains don't automatically become free time. They
+            can become higher profits, lower prices, more consumption, or more
+            output. How those gains are distributed is a social and political
+            choice, not something technology decides for us. I suddenly sound
+            like a philosopher…
+          </p>
+          <p>
+            And maybe we'll have to rethink why a person's right to a
+            comfortable life is so closely tied to their ability to sell their
+            time. Until then, the practical advice is to keep up with the
+            technology and learn the part you enjoy. (me thinks)
+          </p>
+
+          <h2>What I Really Miss: The Craft and the Epiphany</h2>
+          <p>
+            Do I sound like a masochist if I say I miss being consumed by a
+            single problem for days?
+          </p>
+          <p>
+            I miss having a tricky requirement live rent-free in my head,
+            turning it over while walking or showering, debating it with a
+            colleague, and eventually landing on a plan that neither of us could
+            have come up with alone. I was deeply in it. I knew the rationale
+            behind every odd edge case, every rejected alternative, and every
+            trade-off we reluctantly accepted.
+          </p>
+          <p>
+            Four years ago, I built the refund flow for an e-commerce platform.
+            We had this massive switch...case statement covering over 20 distinct
+            refund scenarios (missing parcels, canceled orders, partial
+            fulfillments, duplicates, and more). It was built on meticulous
+            historical event analysis, rigorous documentation reviews, and
+            endless interviews with account managers. I remember we'd discover
+            some new strange cases every time we tweak the query or discover one
+            more slack thread. One colleague even memorized the 13-digit EANs
+            for our top 50 most frequently refunded products. Whenever an alert
+            fired, they’d look at the product code and immediately go, "Ugh, it's
+            that Chromecast again." (A skill as niche and entertainingly useless
+            as reciting digits of Pi).
+          </p>
+          <p>
+            Today, I can type a single prompt into an AI, and the generated
+            output is honestly better.
+          </p>
+          <p>And yet, something feels lost.</p>
+          <p>
+            My role has subtly shifted from creating to reacting. I’ve become an
+            editor evaluating someone else’s good work. I can challenge it,
+            refine it, and decide whether it’s correct, but I miss the
+            intellectual struggle of forging the path myself.
+          </p>
+          <p>
+            Simply reviewing a generated answer just doesn't deliver that same
+            spark.
+          </p>
+          <p>
+            Now, I’m trying to reclaim that kind of joy outside of work and
+            honestly, who would complain too much about a bit more life :-P
+          </p>
+        </div>
+      </article>
+    </main>
+
+    <footer class="site-footer">
+      <a href="../ramble.html">← All rambles</a>
+    </footer>
+  </body>
+</html>
