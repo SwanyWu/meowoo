@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="SRE Agent goes to production* — on access, sandboxes, and why prod isn't a playground."
+    />
+    <title>SRE Agent goes to production* · ramble · meowoo.me</title>
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="theme-ramble">
+    <div class="glow" aria-hidden="true"></div>
+    <header class="site-header">
+      <a class="logo" href="../index.html">meowoo.me</a>
+      <nav class="site-nav" aria-label="Main">
+        <a href="../nom.html">nom</a>
+        <a href="../stomp.html">stomp</a>
+        <a class="is-active" href="../ramble.html" aria-current="page">ramble</a>
+        <a href="../looksie.html">looksie</a>
+      </nav>
+    </header>
+
+    <main class="page page--post">
+      <article class="post">
+        <header class="post-header">
+          <p class="post-meta">
+            <a class="post-meta__section" href="../ramble.html">ramble</a>
+            <span class="post-meta__sep" aria-hidden="true">·</span>
+            <time datetime="2026-10-11">11 Oct 2026</time>
+          </p>
+          <p class="post-vibe">*sike</p>
+          <h1>SRE Agent goes to production*</h1>
+        </header>
+
+        <div class="post-body">
+          <p>
+             When investigating an incident, we usually gather and correlated information from sources like logs, metrics, traces, deployment history, Kubernetes events, and perhaps database state to get a whole picture of what is going on.
+            
+            A spike in http 500s might be an unannouced deployment, a growing queue might be cause by crashing consumers. One barely concluds the cause by just reading the error message and codebase.
+            
+           Before an agent can perform magic, I reckon it'd need the access to those sources as well. 
+            
+          </p>
+          <p>
+            But production is not a playground. Giving an agent unrestricted access to everything isn't a reasonable solution. A database query could expose sensitive
+            information or overload a production database; a Kubernetes command
+            could restart a critical workload; a Terraform change could replace
+            a resource that another service depends on.
+          </p>
+          <p>
+            So we have a dilemma: the less access we give an agent, the less it
+            can see; the more access we give it, the more damage it could
+            potentially do.
+          </p>
+          <p>
+            I did some shallow research into existing approaches — writing it
+            down here mostly for my own learning.
+          </p>
+
+          <h2>Ways around this</h2>
+
+          <h3>Give the agent a restricted view of production</h3>
+          <p>
+            Instead of giving an agent unrestricted access to production, we can
+            expose a carefully selected set of tools and data. So it has
+            (hopefully) enough context to investigate incidents but can't automatically
+             applying every possible fix.
+          </p>
+          <p>For example:</p>
+          <ul>
+            <li>
+              <strong>Logs and metrics:</strong> Let the agent query centralized
+              logs, traces, dashboards, deployment history, and Kubernetes
+              events through read-only access. This gives it evidence to
+              investigate many incidents without allowing it to change production
+              systems. Access should still be scoped carefully, since logs and
+              traces can contain sensitive information.
+            </li>
+            <li>
+              <strong>Database:</strong> Use read replicas, read-only roles,
+              masked views, or a query gateway that enforces query limits and
+              timeouts. For more sensitive data, require additional approval
+              before allowing access to unmasked records or bulk exports. An
+              anonymized production snapshot in staging is another option. Each
+              approach involves trade-offs: read replicas can lag behind
+              production, masking can hide useful debugging details, and
+              snapshots can become stale.
+            </li>
+            <li>
+              <strong>Kubernetes:</strong> Start with a read-only service account
+              scoped by RBAC to the namespaces and resources the agent needs. It
+              can inspect pod health, logs, events, and deployment status without
+              being allowed to restart workloads or modify resources. Be careful
+              about what it can read, too: logs, environment variables, and
+              other diagnostic information may contain secrets or sensitive data.
+            </li>
+            <li>
+              <strong>Terraform:</strong> Let the agent inspect infrastructure
+              configuration and generate a Terraform plan, but keep applying
+              infrastructure changes behind a human-reviewed pull request and a
+              controlled CI pipeline. A plan helps reviewers understand the
+              proposed changes, but it doesn't guarantee that the changes are
+              safe. Access to Terraform state and cloud credentials should also
+              be restricted, and the apply step must remain protected.
+            </li>
+            <li>
+              <strong>A semantic layer over production data:</strong> Rather than
+              letting the agent query arbitrary database tables, we can expose
+              meaningful concepts such as order failure rates, queue lag,
+              inventory discrepancies, or service latency through a curated
+              dataset or predefined queries. This gives the agent a simpler,
+              more controlled interface to the information it needs.
+              Pre-aggregated data can also make queries cheaper and faster. Of
+              course, there are trade-offs: a curated dataset might omit the one
+              obscure field that explains an incident, while aggregated metrics
+              might hide a failure affecting only one customer or request.
+              Building and maintaining this layer takes engineering effort, too.
+            </li>
+          </ul>
+          <p>
+            Across these approaches, we should use short-lived, least-privilege
+            credentials and log what the agent accesses and does. If a human
+            approves an action, the system should validate the exact operation
+            and its parameters again at execution time, so the agent cannot modify
+            the request after approval.
+          </p>
+
+          <h3>Sandboxing: don't experiment in production</h3>
+          <p>
+            Another approach is to let the agent experiment somewhere other than
+            production. Give it an isolated sandbox or staging environment where
+            it can run commands, test hypotheses, execute scripts, and try
+            proposed fixes without directly affecting real customer traffic.
+          </p>
+          <p>
+            For example, suppose an agent suspects that a recent configuration
+            change is causing a service to crash. It could inspect the relevant
+            configuration, reproduce the problem in staging, and test a
+            correction before recommending it. For code and infrastructure
+            changes, it could generate a patch, run tests, and produce a
+            Terraform plan for review instead of immediately modifying
+            production.
+          </p>
+          <p>
+            But staging is not production. It may have different traffic
+            patterns, data volumes, permissions, dependencies, or failure modes.
+            A fix that works perfectly there might behave very differently under
+            production load. A sandbox also needs genuine isolation: if it shares
+            critical resources with production or has credentials that allow
+            production changes, it may not be as safe as it appears.
+          </p>
+          <p>
+            Most importantly, isolating the agent's execution environment
+            doesn't automatically isolate its actions in external systems. If an
+            agent running in a sandbox can call a production API using
+            credentials with write access, it can still make production changes.
+          </p>
+          <p>
+            So sandboxing works best alongside restricted permissions. Let the
+            agent experiment in a controlled environment, and give it only the
+            minimum production access needed to investigate the real incident.
+          </p>
+          <p>
+            In practice, people usually combine the approaches: use read-only production
+            access to gather real evidence, use staging or a sandbox to test
+            possible solutions, and require approval before changes that could
+            have a significant impact on production.
+          </p>
+
+          <h2>What to keep in mind when giving AI access to production</h2>
+          <p>
+            Even with restricted access and sandboxing, we still need to decide
+            how much autonomy an AI agent should have.
+          </p>
+          <p>
+            For now, <strong>reversibility is a useful starting point.</strong>
+            Reading
+            logs, summarizing incidents, and proposing fixes are relatively
+            low-risk. Deleting production data or running irreversible migrations
+            is another story. Even a reversible action, like restarting a
+            service, can cause downtime before it's undone, repeatedly restarting a failing service can
+            turn a small problem into a prolonged outage.
+          </p>
+          <p>
+            So rather than drawing the line between read and write access, we
+            should consider an action's impact, scope, and recoverability. An
+            agent might restart a non-critical staging service automatically,
+            while production changes require human approval. 
+          </p>
+
+          <p>
+            <strong>Pick the right things to delegate.</strong> Not every problem
+            needs AI. For predictable failures, alerts and
+            well-tested runbooks may be enough. KEDA, for example, can scale
+            workloads based on queue metrics, but adding consumers won't
+            necessarily fix a dead-letter queue full of messages that
+            consistently fail processing. 
+            AI becomes more useful when the cause needs further investigation.
+          </p>
+
+
+          <h2>Sooo, are we there yet?</h2>
+          <p>
+            There's still work to do before we can trust AI to operate
+            autonomously in production. We need enough context to make it useful,
+            enough restrictions to contain its mistakes, and clear boundaries
+            around what it can do without human approval.
+          </p>
+          <p>
+            Maybe the question isn't whether AI is ready for production, but
+            whether we've built production systems that are ready for AI.
+          </p>
+        </div>
+      </article>
+    </main>
+
+    <footer class="site-footer">
+      <a href="../ramble.html">← All rambles</a>
+    </footer>
+  </body>
+</html>
