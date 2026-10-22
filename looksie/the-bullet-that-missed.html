@@ -74,11 +74,24 @@
         >
           <h2 class="character-chart__title">Who’s who &amp; how they connect</h2>
           <p class="character-chart__lead">
-            Click a name. Related people highlight across factions; details
-            appear below.
+            Plot map from my notes — click a name to highlight links. Green:
+            pensioner club; purple: collectors; numbered beats follow the heroin
+            box thread.
           </p>
 
-          <div class="character-grid" id="character-grid"></div>
+          <div class="plot-graph">
+            <div class="plot-graph__scroll">
+              <div class="plot-graph__stage" id="plot-graph-stage">
+                <svg
+                  class="plot-edges"
+                  id="plot-edges"
+                  role="img"
+                  aria-label="Character relationship arrows"
+                ></svg>
+                <div class="plot-nodes" id="plot-nodes"></div>
+              </div>
+            </div>
+          </div>
 
           <aside class="character-detail" id="character-detail" aria-live="polite">
             <p class="character-detail__empty" id="character-detail-empty">

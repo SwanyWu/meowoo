@@ -1,198 +1,178 @@
 (function () {
-  const FACTIONS = [
-    {
-      id: "pensioners",
-      label: "Pensioners",
-      hint: "Co-op residents & amateur sleuths",
-      accent: "#ffd56b",
-    },
-    {
-      id: "police",
-      label: "Police",
-      hint: "Official investigation",
-      accent: "#7eb8ff",
-    },
-    {
-      id: "dealers",
-      label: "Drug dealers",
-      hint: "Heroin supply chain",
-      accent: "#ff9f6b",
-    },
-    {
-      id: "collectors",
-      label: "Antique collectors",
-      hint: "Kuldesh's circle & the box",
-      accent: "#c89bff",
-    },
-  ];
+  const NODE_W = 118;
+  const NODE_H = 36;
 
-  const PEOPLE = [
-    {
-      id: "joyce",
-      name: "Joyce",
-      faction: "pensioners",
-      role: "Thursday Murder Club; digs into Kuldesh's death.",
-    },
-    {
-      id: "elizabeth",
-      name: "Elizabeth",
-      faction: "pensioners",
-      role: "Ex-union boss; sharp instincts on the case.",
-    },
-    {
-      id: "stephen",
-      name: "Stephen",
-      faction: "pensioners",
-      role: "Psychiatrist; Kuldesh trusts him with the box.",
-    },
-    {
-      id: "ron",
-      name: "Ron",
-      faction: "pensioners",
-      role: "Club member; along for the ride.",
-    },
-    {
-      id: "ibrahim",
-      name: "Ibrahim",
-      faction: "pensioners",
-      role: "Club member; chess and quiet observation.",
-    },
-    {
-      id: "donna",
-      name: "Donna",
-      faction: "police",
-      role: "Leads the heroin side of the investigation.",
-    },
-    {
-      id: "jill",
-      name: "Jill",
-      faction: "police",
-      role: "Works the drug trail with Donna.",
-    },
-    {
-      id: "chris",
-      name: "Chris",
-      faction: "police",
-      role: "On the official inquiry.",
-    },
-    {
-      id: "mitch",
-      name: "Mitch",
-      faction: "dealers",
-      role: "Intended recipient of the heroin shipment.",
-    },
-    {
-      id: "luca",
-      name: "Luca",
-      faction: "dealers",
-      role: "Part of the supply chain.",
-    },
-    {
-      id: "connie",
-      name: "Connie",
-      faction: "dealers",
-      role: "Connected to moving the box.",
-    },
+  /** @type {Array<{id:string,name:string,x:number,y:number,color:string,group:string,note?:string}>} */
+  const NODES = [
+    { id: "dom", name: "Dom Holt", x: 62, y: 28, color: "#c5d4ef", group: "other" },
+    { id: "mitch", name: "Mitch", x: 210, y: 28, color: "#c5d4ef", group: "dealers" },
+    { id: "luca", name: "Luca", x: 358, y: 28, color: "#c5d4ef", group: "dealers" },
+    { id: "police", name: "Police", x: 62, y: 468, color: "#c5d4ef", group: "police" },
+    { id: "caroline", name: "Caroline", x: 448, y: 72, color: "#9ec5f5", group: "other" },
+    { id: "samantha", name: "Samantha", x: 448, y: 148, color: "#d4c5e8", group: "collectors" },
+    { id: "garth", name: "Garth", x: 448, y: 224, color: "#d4c5e8", group: "collectors" },
     {
       id: "kuldesh",
       name: "Kuldesh",
-      faction: "collectors",
-      role: "Antique dealer; friend of the pensioners; murdered.",
+      x: 448,
+      y: 308,
+      color: "#9fd4d4",
+      group: "collectors",
+      note: "1 received a box of heroin",
     },
-    {
-      id: "nina",
-      name: "Nina",
-      faction: "collectors",
-      role: "Collector; kills Kuldesh after the handoff to Stephen.",
-    },
-    {
-      id: "samantha",
-      name: "Samantha",
-      faction: "collectors",
-      role: "Collector; wants the box back in play.",
-    },
+    { id: "nina", name: "Nina", x: 448, y: 392, color: "#d4c5e8", group: "collectors" },
+    { id: "connie", name: "Connie", x: 788, y: 108, color: "#bfe8bf", group: "pensioners" },
+    { id: "ibrahim", name: "Ibrahim", x: 788, y: 204, color: "#bfe8bf", group: "pensioners" },
+    { id: "stephen", name: "Stephen", x: 788, y: 300, color: "#bfe8bf", group: "pensioners" },
+    { id: "elizabeth", name: "Elizabeth", x: 788, y: 396, color: "#bfe8bf", group: "pensioners" },
   ];
 
-  /** @type {Array<{from:string,to:string,label:string}>} */
+  /** @type {Array<{from:string,to:string,label?:string,dashed?:boolean,step?:number}>} */
   const EDGES = [
-    { from: "joyce", to: "kuldesh", label: "Friend; helps investigate his murder" },
-    { from: "elizabeth", to: "kuldesh", label: "Friend; investigates his murder" },
-    { from: "stephen", to: "kuldesh", label: "Friend; receives the heroin box from him" },
-    { from: "ron", to: "kuldesh", label: "Friend (Thursday Murder Club)" },
-    { from: "ibrahim", to: "kuldesh", label: "Friend (Thursday Murder Club)" },
-    { from: "luca", to: "kuldesh", label: "Heroin box passes through dealers to Kuldesh" },
-    { from: "connie", to: "kuldesh", label: "Linked to the box meant for Mitch" },
-    { from: "kuldesh", to: "mitch", label: "Supposed to deliver the heroin box" },
-    { from: "kuldesh", to: "stephen", label: "Brings the box to Stephen before he dies" },
-    { from: "nina", to: "kuldesh", label: "Murders him after the box reaches Stephen" },
-    { from: "donna", to: "mitch", label: "Traces the heroin toward Mitch" },
-    { from: "jill", to: "mitch", label: "Follows the official drug investigation" },
-    { from: "chris", to: "mitch", label: "Part of the heroin inquiry" },
-    { from: "nina", to: "mitch", label: "Wants the box (collector side)" },
-    { from: "samantha", to: "mitch", label: "Wants the box recovered" },
+    { from: "kuldesh", to: "nina", label: "2 called Nina to inspect the box", step: 2 },
+    { from: "kuldesh", to: "stephen", label: "3 brought the box to Stephen", step: 3 },
+    { from: "nina", to: "kuldesh", label: "4 kill", step: 4 },
+    { from: "ibrahim", to: "connie", label: "6 told Connie about it", step: 6 },
+    { from: "elizabeth", to: "nina", label: "8 got cam footage of stealing", step: 8 },
+    { from: "garth", to: "nina", label: "9 pretend to buy the box", step: 9 },
+    { from: "caroline", to: "mitch", label: "9 searching for the box in a pile of garbage", step: 9 },
+    { from: "nina", to: "police", label: "10 arrested for killing Kuldesh", step: 10 },
+    { from: "caroline", to: "dom", label: "kill" },
+    { from: "caroline", to: "samantha" },
+    { from: "caroline", to: "connie", label: "hitwoman" },
+    { from: "luca", to: "police", label: "spy" },
+    { from: "connie", to: "ibrahim", dashed: true },
+    { from: "ibrahim", to: "stephen", dashed: true },
+    { from: "stephen", to: "elizabeth", dashed: true },
   ];
 
-  const peopleById = Object.fromEntries(PEOPLE.map((p) => [p.id, p]));
-  const factionById = Object.fromEntries(FACTIONS.map((f) => [f.id, f]));
+  const GROUP_LABELS = {
+    pensioners: "Pensioners (club)",
+    collectors: "Antique collectors",
+    dealers: "Drug dealers",
+    police: "Police",
+    other: "Others",
+  };
+
+  const nodesById = Object.fromEntries(NODES.map((n) => [n.id, n]));
 
   let selectedId = null;
 
   const el = {
-    grid: document.getElementById("character-grid"),
-    detail: document.getElementById("character-detail"),
+    revealBtn: document.getElementById("chart-reveal-btn"),
+    chart: document.getElementById("character-chart"),
+    stage: document.getElementById("plot-graph-stage"),
+    svg: document.getElementById("plot-edges"),
+    nodes: document.getElementById("plot-nodes"),
     detailEmpty: document.getElementById("character-detail-empty"),
     detailContent: document.getElementById("character-detail-content"),
     detailName: document.getElementById("character-detail-name"),
     detailFaction: document.getElementById("character-detail-faction"),
     detailRole: document.getElementById("character-detail-role"),
     detailLinks: document.getElementById("character-detail-links"),
-    revealBtn: document.getElementById("chart-reveal-btn"),
-    chart: document.getElementById("character-chart"),
   };
+
+  function center(node) {
+    return { x: node.x + NODE_W / 2, y: node.y + NODE_H / 2 };
+  }
+
+  function connectedIds(personId) {
+    const ids = new Set();
+    for (const e of EDGES) {
+      if (e.from === personId) ids.add(e.to);
+      if (e.to === personId) ids.add(e.from);
+    }
+    return ids;
+  }
 
   function edgesFor(personId) {
     return EDGES.filter((e) => e.from === personId || e.to === personId);
   }
 
-  function connectedIds(personId) {
-    const ids = new Set();
-    for (const e of edgesFor(personId)) {
-      ids.add(e.from === personId ? e.to : e.from);
-    }
-    return ids;
+  function edgeActive(edge) {
+    if (!selectedId) return false;
+    return edge.from === selectedId || edge.to === selectedId;
   }
 
-  function formatLink(edge, viewerId) {
-    const otherId = edge.from === viewerId ? edge.to : edge.from;
-    const other = peopleById[otherId];
-    const direction =
-      edge.from === viewerId
-        ? `→ ${other.name}`
-        : `← ${other.name}`;
-    return { direction, label: edge.label, otherId };
+  function pathD(from, to) {
+    const a = center(nodesById[from]);
+    const b = center(nodesById[to]);
+    const dx = b.x - a.x;
+    const dy = b.y - a.y;
+    const cx = (a.x + b.x) / 2 + dy * 0.12;
+    const cy = (a.y + b.y) / 2 - dx * 0.12;
+    return `M ${a.x} ${a.y} Q ${cx} ${cy} ${b.x} ${b.y}`;
   }
 
-  function renderGrid() {
-    el.grid.innerHTML = FACTIONS.map((faction) => {
-      const members = PEOPLE.filter((p) => p.faction === faction.id);
-      const chips = members
-        .map((p) => {
-          const isSelected = p.id === selectedId;
-          const isLinked =
-            selectedId && connectedIds(selectedId).has(p.id) && p.id !== selectedId;
-          let cls = "character-chip";
-          if (isSelected) cls += " is-selected";
-          else if (isLinked) cls += " is-linked";
-          return `<button type="button" class="${cls}" data-id="${p.id}" aria-pressed="${isSelected}" style="--chip-accent:${faction.accent}">${p.name}</button>`;
-        })
-        .join("");
-      return `
-        <div class="faction-column" style="--faction-accent:${faction.accent}">
-          <h3 class="faction-column__title">${faction.label}</h3>
-          <p class="faction-column__hint">${faction.hint}</p>
-          <div class="faction-column__chips">${chips}</div>
-        </div>`;
+  function labelPoint(from, to) {
+    const a = center(nodesById[from]);
+    const b = center(nodesById[to]);
+    const t = 0.5;
+    const cx = (a.x + b.x) / 2 + (b.y - a.y) * 0.12;
+    const cy = (a.y + b.y) / 2 - (b.x - a.x) * 0.12;
+    const x = (1 - t) * (1 - t) * a.x + 2 * (1 - t) * t * cx + t * t * b.x;
+    const y = (1 - t) * (1 - t) * a.y + 2 * (1 - t) * t * cy + t * t * b.y;
+    return { x, y };
+  }
+
+  function renderGraph() {
+    const w = 960;
+    const h = 540;
+    el.svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+
+    const defs = `<defs>
+      <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"></path>
+      </marker>
+    </defs>`;
+
+    const edgeMarkup = EDGES.map((edge, i) => {
+      const active = edgeActive(edge);
+      const dim = selectedId && !active;
+      const d = pathD(edge.from, edge.to);
+      const cls = [
+        "plot-edge",
+        edge.dashed ? "plot-edge--dashed" : "",
+        active ? "is-active" : "",
+        dim ? "is-dim" : "",
+      ]
+        .filter(Boolean)
+        .join(" ");
+      let label = "";
+      if (edge.label) {
+        const p = labelPoint(edge.from, edge.to);
+        label = `<text class="plot-edge__label${dim ? " is-dim" : ""}${active ? " is-active" : ""}" x="${p.x}" y="${p.y}" text-anchor="middle">${escapeHtml(edge.label)}</text>`;
+      }
+      return `<path class="${cls}" d="${d}" marker-end="url(#arrow)" aria-hidden="true"></path>${label}`;
     }).join("");
+
+    el.svg.innerHTML = defs + edgeMarkup;
+
+    el.nodes.innerHTML = NODES.map((node) => {
+      const isSelected = node.id === selectedId;
+      const isLinked =
+        selectedId && connectedIds(selectedId).has(node.id) && node.id !== selectedId;
+      const cls = [
+        "plot-node",
+        isSelected ? "is-selected" : "",
+        isLinked ? "is-linked" : "",
+        selectedId && !isSelected && !isLinked ? "is-dim" : "",
+      ]
+        .filter(Boolean)
+        .join(" ");
+      const note = node.note
+        ? `<span class="plot-node__note">${escapeHtml(node.note)}</span>`
+        : "";
+      return `<button type="button" class="${cls}" data-id="${node.id}" aria-pressed="${isSelected}" style="left:${node.x}px;top:${node.y}px;width:${NODE_W}px;background:${node.color}">${note}<span class="plot-node__name">${escapeHtml(node.name)}</span></button>`;
+    }).join("");
+  }
+
+  function escapeHtml(s) {
+    return s
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
   }
 
   function renderDetail() {
@@ -201,38 +181,38 @@
       el.detailContent.hidden = true;
       return;
     }
-    const person = peopleById[selectedId];
-    const faction = factionById[person.faction];
+    const node = nodesById[selectedId];
     el.detailEmpty.hidden = true;
     el.detailContent.hidden = false;
-    el.detailName.textContent = person.name;
-    el.detailFaction.textContent = faction.label;
-    el.detailRole.textContent = person.role;
+    el.detailName.textContent = node.name;
+    el.detailFaction.textContent = GROUP_LABELS[node.group] || node.group;
+    el.detailRole.textContent = node.note || "Click another name to trace the plot threads.";
 
-    const links = edgesFor(selectedId).map((e) => formatLink(e, selectedId));
+    const links = edgesFor(selectedId)
+      .filter((e) => e.label)
+      .map((e) => {
+        const out = e.from === selectedId;
+        const other = nodesById[out ? e.to : e.from];
+        const dir = out ? `→ ${other.name}` : `← ${other.name}`;
+        return `<li><span class="character-link__dir">${dir}</span> — ${e.label}</li>`;
+      });
     el.detailLinks.innerHTML =
-      links.length === 0
-        ? "<li>No mapped links yet.</li>"
-        : links
-            .map(
-              (l) =>
-                `<li><span class="character-link__dir">${l.direction}</span> — ${l.label}</li>`
-            )
-            .join("");
+      links.length > 0
+        ? links.join("")
+        : "<li>Dashed lines: pensioner club stack (no label on chart).</li>";
   }
 
   function select(id) {
     selectedId = selectedId === id ? null : id;
-    renderGrid();
+    renderGraph();
     renderDetail();
   }
 
   function initChart() {
-    renderGrid();
+    renderGraph();
     renderDetail();
-
-    el.grid.addEventListener("click", (e) => {
-      const btn = e.target.closest(".character-chip");
+    el.nodes.addEventListener("click", (e) => {
+      const btn = e.target.closest(".plot-node");
       if (!btn) return;
       select(btn.dataset.id);
     });

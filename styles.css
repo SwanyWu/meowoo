@@ -806,6 +806,146 @@ h1 {
   color: var(--accent);
 }
 
+.plot-graph {
+  margin-bottom: 0.5rem;
+}
+
+.plot-graph__scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.plot-graph__stage {
+  position: relative;
+  width: 960px;
+  height: 540px;
+  margin: 0 auto;
+}
+
+.plot-edges {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: rgba(255, 213, 107, 0.55);
+  pointer-events: none;
+}
+
+.plot-edge {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  transition: stroke 0.15s ease, opacity 0.15s ease;
+}
+
+.plot-edge--dashed {
+  stroke-dasharray: 5 6;
+  stroke-width: 1.5;
+  opacity: 0.45;
+}
+
+.plot-edge.is-active {
+  color: var(--accent);
+  stroke-width: 2.5;
+}
+
+.plot-edge.is-dim {
+  opacity: 0.12;
+}
+
+.plot-edge__label {
+  font-family: var(--font-body);
+  font-size: 11px;
+  fill: var(--muted);
+  paint-order: stroke;
+  stroke: var(--bg);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.plot-edge__label.is-active {
+  fill: var(--accent);
+  font-weight: 600;
+}
+
+.plot-edge__label.is-dim {
+  opacity: 0.15;
+}
+
+.plot-nodes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.plot-node {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0.2rem 0.45rem;
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  border-radius: 10px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08);
+  color: #1a1f28;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.15;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.15s ease;
+}
+
+.plot-node:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.plot-node.is-selected {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  z-index: 2;
+}
+
+.plot-node.is-linked {
+  outline: 2px solid color-mix(in srgb, var(--accent) 70%, white);
+  outline-offset: 1px;
+  z-index: 1;
+}
+
+.plot-node.is-dim {
+  opacity: 0.35;
+}
+
+.plot-node__note {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 140px;
+  font-size: 0.62rem;
+  font-weight: 500;
+  text-align: center;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.2rem 0.35rem;
+  pointer-events: none;
+}
+
+.plot-node__name {
+  position: relative;
+  z-index: 1;
+}
+
 .post-header {
   margin-bottom: 2rem;
 }
