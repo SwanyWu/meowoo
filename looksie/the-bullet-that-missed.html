@@ -117,37 +117,68 @@
         >
           <h2 class="character-chart__title">Who’s who &amp; how they connect</h2>
           <p class="character-chart__lead">
-            Plot map from my notes — click a name to highlight links. Green:
-            pensioner club; purple: collectors; numbered beats follow the heroin
-            box thread.
+            Plot map for <em>The Bullet That Missed</em> — numbered beats follow
+            the heroin box thread.
           </p>
 
-          <div class="plot-graph">
-            <div class="plot-graph__scroll">
-              <div class="plot-graph__stage" id="plot-graph-stage">
-                <svg
-                  class="plot-edges"
-                  id="plot-edges"
-                  role="img"
-                  aria-label="Character relationship arrows"
-                ></svg>
-                <div class="plot-nodes" id="plot-nodes"></div>
-              </div>
-            </div>
-          </div>
+          <div class="mermaid-wrap">
+            <pre class="mermaid">
+flowchart TB
+  subgraph left[" "]
+    direction TB
+    DomHolt["Dom Holt"]
+    Mitch["Mitch&lt;br/&gt;&lt;small&gt;9 searching for the box in a pile of garbage&lt;/small&gt;"]
+    Luca["Luca"]
+    Police["Police"]
+  end
 
-          <aside class="character-detail" id="character-detail" aria-live="polite">
-            <p class="character-detail__empty" id="character-detail-empty">
-              Select a character to see their links.
-            </p>
-            <div id="character-detail-content" hidden>
-              <p class="character-detail__faction" id="character-detail-faction"></p>
-              <h3 class="character-detail__name" id="character-detail-name"></h3>
-              <p class="character-detail__role" id="character-detail-role"></p>
-              <h4 class="character-detail__links-title">Connections</h4>
-              <ul class="character-detail__links" id="character-detail-links"></ul>
-            </div>
-          </aside>
+  subgraph center[" "]
+    direction TB
+    Samantha["Samantha"]
+    Garth["Garth"]
+    Kuldesh["Kuldesh&lt;br/&gt;&lt;small&gt;1 received a box of heroin&lt;/small&gt;"]
+    Nina["Nina"]
+  end
+
+  subgraph right[" "]
+    direction TB
+    Caroline["Caroline"]
+    Connie["Connie"]
+    Ibrahim["Ibrahim"]
+    Stephen["Stephen"]
+    Elizabeth["Elizabeth"]
+  end
+
+  Caroline --&gt;|kill| DomHolt
+  Caroline --&gt; Mitch
+  Caroline --&gt; Samantha
+  Caroline --&gt;|hitwoman| Connie
+
+  Luca --&gt;|5 search for heroin| Police
+  Luca --&gt;|spy| Police
+
+  Garth --&gt;|9 pretend to buy the box| Nina
+  Kuldesh --&gt;|2 called Nina to inspect the box| Nina
+  Nina --&gt;|4 kill| Kuldesh
+  Kuldesh --&gt;|3 brought the box to Stephen| Stephen
+
+  Ibrahim --&gt;|6 told Connie abt it| Connie
+  Elizabeth --&gt;|8 got cam footage of stealing| Nina
+  Nina --&gt;|10 arrested for killing kuldesh| Police
+
+  classDef pension fill:#bfe8bf,stroke:#5a8a5a,color:#1a1f28
+  classDef collector fill:#d4c5e8,stroke:#7a6a9a,color:#1a1f28
+  classDef kuldesh fill:#9fd4d4,stroke:#4a9090,color:#1a1f28
+  classDef other fill:#c5d4ef,stroke:#6a7a9a,color:#1a1f28
+  classDef caroline fill:#9ec5f5,stroke:#4a7a9a,color:#1a1f28
+
+  class Connie,Ibrahim,Stephen,Elizabeth pension
+  class Samantha,Garth,Nina collector
+  class Kuldesh kuldesh
+  class DomHolt,Mitch,Luca,Police other
+  class Caroline caroline
+            </pre>
+          </div>
         </section>
       </article>
     </main>
@@ -155,6 +186,25 @@
     <footer class="site-footer">
       <a href="../looksie.html">← All looksies</a>
     </footer>
-    <script src="../js/the-bullet-that-missed-chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+    <script>
+      mermaid.initialize({
+        startOnLoad: false,
+        securityLevel: "loose",
+        theme: "dark",
+        flowchart: { curve: "basis", padding: 20, htmlLabels: true },
+      });
+
+      document
+        .getElementById("chart-reveal-btn")
+        .addEventListener("click", function () {
+          var chart = document.getElementById("character-chart");
+          chart.hidden = false;
+          this.closest(".spoiler-gate").remove();
+          mermaid.run({
+            querySelector: "#character-chart .mermaid",
+          });
+        });
+    </script>
   </body>
 </html>

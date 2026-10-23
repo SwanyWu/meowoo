@@ -806,6 +806,27 @@ h1 {
   color: var(--accent);
 }
 
+.mermaid-wrap {
+  overflow-x: auto;
+  margin-bottom: 0.5rem;
+  padding: 0.75rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.mermaid-wrap .mermaid {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  min-width: min(100%, 720px);
+}
+
+.mermaid-wrap svg {
+  max-width: 100%;
+  height: auto;
+}
+
 .plot-graph {
   margin-bottom: 0.5rem;
 }
