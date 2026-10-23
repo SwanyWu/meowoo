@@ -1,0 +1,27 @@
+# Optional Render Blueprint: Dashboard → New → Blueprint → connect repo.
+# You can also create a Web Service manually with the same settings.
+
+services:
+  - type: web
+    name: meowoo-publisher
+    runtime: python
+    plan: free
+    region: frankfurt
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn admin.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.8"
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: SECRET_KEY
+        sync: false
+      - key: GITHUB_TOKEN
+        sync: false
+      - key: GITHUB_REPO
+        value: SwanyWu/meowoo
+      - key: GITHUB_BRANCH
+        value: main
+      - key: PUBLISH_SECTIONS
+        value: ramble

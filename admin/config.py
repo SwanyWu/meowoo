@@ -10,6 +10,13 @@ from publisher.github_client import GitHubConfig
 load_dotenv()
 
 
+def _env_truthy(name: str, default: bool = False) -> bool:
+    raw = os.getenv(name)
+    if raw is None:
+        return default
+    return raw.lower() in ("1", "true", "yes", "on")
+
+
 @dataclass
 class Settings:
     admin_password: str
@@ -18,6 +25,7 @@ class Settings:
     github_repo: str
     github_branch: str
     publish_sections: tuple[str, ...]
+    session_https_only: bool
 
     @property
     def github_enabled(self) -> bool:
@@ -42,6 +50,7 @@ def get_settings() -> Settings:
         raise RuntimeError("SECRET_KEY is not set")
 
     sections = os.getenv("PUBLISH_SECTIONS", "ramble")
+    https_only = _env_truthy("SESSION_HTTPS_ONLY") or os.getenv("RENDER") == "true"
     return Settings(
         admin_password=password,
         secret_key=secret,
@@ -49,4 +58,5 @@ def get_settings() -> Settings:
         github_repo=os.getenv("GITHUB_REPO", "SwanyWu/meowoo"),
         github_branch=os.getenv("GITHUB_BRANCH", "main"),
         publish_sections=tuple(s.strip() for s in sections.split(",") if s.strip()),
+        session_https_only=https_only,
     )

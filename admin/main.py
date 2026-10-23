@@ -38,7 +38,11 @@ def settings() -> Settings:
 
 
 _settings = get_settings()
-app.add_middleware(SessionMiddleware, secret_key=_settings.secret_key, https_only=False)
+app.add_middleware(
+    SessionMiddleware,
+    secret_key=_settings.secret_key,
+    https_only=_settings.session_https_only,
+)
 
 
 @app.exception_handler(LoginRequired)
