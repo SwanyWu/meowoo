@@ -1030,6 +1030,25 @@ h1 {
   margin-bottom: 0;
 }
 
+.post-body blockquote {
+  margin: 0 0 1.25rem;
+  padding: 0.85rem 1.1rem;
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.post-body blockquote p {
+  margin: 0;
+  font-size: 0.98rem;
+  font-style: italic;
+  color: var(--muted);
+}
+
+.post-meta--sub em {
+  font-style: italic;
+}
+
 .site-footer {
   position: relative;
   z-index: 1;
