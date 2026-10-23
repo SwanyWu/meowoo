@@ -38,12 +38,18 @@ def _headers(token: str) -> dict[str, str]:
     }
 
 
-def commit_files(cfg: GitHubConfig, message: str, files: dict[str, str]) -> str:
+def commit_files(
+    cfg: GitHubConfig,
+    message: str,
+    files: dict[str, str],
+    delete_paths: list[str] | None = None,
+) -> str:
     """
     Create one commit on cfg.branch updating all paths (repo-root relative).
     Returns the new commit SHA.
     """
-    if not files:
+    deletes = delete_paths or []
+    if not files and not deletes:
         raise GitHubError("No files to commit")
 
     with httpx.Client(timeout=60.0) as client:
@@ -64,6 +70,8 @@ def commit_files(cfg: GitHubConfig, message: str, files: dict[str, str]) -> str:
             {"path": path, "mode": "100644", "type": "blob", "content": content}
             for path, content in sorted(files.items())
         ]
+        for path in sorted(deletes):
+            tree_items.append({"path": path, "mode": "100644", "type": "blob", "sha": None})
         tree_resp = client.post(
             f"{base_url}/git/trees",
             headers=h,

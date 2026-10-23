@@ -113,3 +113,51 @@ button.secondary {
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: #e8eaf0;
 }
+
+button.danger {
+  background: #c94a4a;
+  color: #fff;
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.toolbar {
+  margin: 0 0 1.25rem;
+}
+
+.post-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.post-table th,
+.post-table td {
+  text-align: left;
+  padding: 0.5rem 0.65rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.post-table th {
+  color: #9aa3b5;
+  font-weight: 600;
+}
+
+.post-table .actions {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+input:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
