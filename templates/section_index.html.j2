@@ -38,7 +38,7 @@
         <a class="post-card" href="{{ post.card_href }}">
           <time class="post-card__date" datetime="{{ post.date_iso }}">{{ post.date_display }}</time>
           <h2 class="post-card__title">{{ post.title }}</h2>
-          <p class="post-card__excerpt">{{ post.excerpt }}</p>
+          <p class="post-card__excerpt">{{ post.excerpt | safe }}</p>
         </a>
         {% endfor %}
       </section>

@@ -36,6 +36,7 @@ Open [http://127.0.0.1:8000/login](http://127.0.0.1:8000/login).
 ```bash
 source .venv/bin/activate
 python -m publisher.build --section ramble
+python -m publisher.build --section looksie
 python -m publisher.build --all
 ```
 
@@ -50,8 +51,10 @@ Open [http://127.0.0.1:8080/](http://127.0.0.1:8080/).
 
 ## Content layout
 
-- **Source:** `content/ramble/*.md`
-- **Generated:** `ramble/*.html`, `ramble.html`
+- **Source:** `content/ramble/*.md`, `content/looksie/*.md`
+- **Generated:** section HTML under `ramble/`, `looksie/`, plus `ramble.html`, `looksie.html`
 - Commit both source and HTML when publishing via git; the admin can push both via the GitHub API when `GITHUB_TOKEN` is set.
 
-Looksie and nom are not in the Markdown pipeline yet.
+Looksie posts can include a `chart:` block in frontmatter (spoiler-gated Mermaid). The admin UI is still **ramble-only**; edit looksie Markdown by hand or extend `PUBLISH_SECTIONS` later.
+
+Nom is not in the Markdown pipeline yet.

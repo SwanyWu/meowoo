@@ -19,6 +19,14 @@ TEMPLATES_DIR = ROOT / "templates"
 
 
 @dataclass
+class SpoilerChart:
+    spoiler_warning: str
+    title: str
+    lead: str
+    mermaid: str
+
+
+@dataclass
 class Post:
     section: str
     slug: str
@@ -31,6 +39,7 @@ class Post:
     page_class: str
     meta_tags: list[str]
     subtitle: str | None
+    chart: SpoilerChart | None = None
 
     @property
     def date_display(self) -> str:
@@ -86,6 +95,21 @@ def markdown_to_html(body: str) -> str:
     )
 
 
+def _load_chart(meta: dict) -> SpoilerChart | None:
+    raw = meta.get("chart")
+    if not raw:
+        return None
+    mermaid = raw.get("mermaid", "").strip()
+    if not mermaid:
+        return None
+    return SpoilerChart(
+        spoiler_warning=raw.get("spoiler_warning", "Spoilers ahead."),
+        title=raw.get("title", "Chart"),
+        lead=raw.get("lead", ""),
+        mermaid=mermaid,
+    )
+
+
 def load_post(path: Path, section: str) -> Post:
     raw = path.read_text(encoding="utf-8")
     meta, body = parse_frontmatter(raw)
@@ -103,6 +127,7 @@ def load_post(path: Path, section: str) -> Post:
         page_class=meta.get("page_class", "page--post"),
         meta_tags=meta.get("tags") or [],
         subtitle=meta.get("subtitle"),
+        chart=_load_chart(meta),
     )
 
 

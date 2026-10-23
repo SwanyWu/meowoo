@@ -51,11 +51,56 @@
         <div class="post-body">
           {{ post.body_html | safe }}
         </div>
+
+        {% if post.chart %}
+        <div class="spoiler-gate">
+          <p class="spoiler-gate__warn">{{ post.chart.spoiler_warning }}</p>
+          <button type="button" class="spoiler-gate__btn" id="chart-reveal-btn">
+            Show character chart (spoilers)
+          </button>
+        </div>
+
+        <section
+          class="character-chart"
+          id="character-chart"
+          hidden
+          aria-label="Character relationship chart"
+        >
+          <h2 class="character-chart__title">{{ post.chart.title }}</h2>
+          <p class="character-chart__lead">{{ post.chart.lead | safe }}</p>
+
+          <div class="mermaid-wrap">
+            <pre class="mermaid">{{ post.chart.mermaid }}</pre>
+          </div>
+        </section>
+        {% endif %}
       </article>
     </main>
 
     <footer class="site-footer">
       <a href="{{ section.post_footer_href }}">{{ section.post_footer_label }}</a>
     </footer>
+    {% if post.chart %}
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+    <script>
+      mermaid.initialize({
+        startOnLoad: false,
+        securityLevel: "loose",
+        theme: "dark",
+        flowchart: { curve: "basis", padding: 20, htmlLabels: true },
+      });
+
+      document
+        .getElementById("chart-reveal-btn")
+        .addEventListener("click", function () {
+          var chart = document.getElementById("character-chart");
+          chart.hidden = false;
+          this.closest(".spoiler-gate").remove();
+          mermaid.run({
+            querySelector: "#character-chart .mermaid",
+          });
+        });
+    </script>
+    {% endif %}
   </body>
 </html>
