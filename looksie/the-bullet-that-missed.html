@@ -126,28 +126,36 @@
 flowchart TB
   subgraph left[" "]
     direction TB
+    Caroline["Caroline"]
     DomHolt["Dom Holt"]
-    Mitch["Mitch&lt;br/&gt;&lt;small&gt;9 searching for the box in a pile of garbage&lt;/small&gt;"]
+    MitchNote["9 searching for the box in a pile of garbage"]
+    Mitch["Mitch"]
     Luca["Luca"]
+    Connie["Connie"]
+  end
+
+  subgraph policeGroup[" "]
     Police["Police"]
   end
 
   subgraph center[" "]
     direction TB
+    KuldeshNote["1 received a box of heroin"]
     Samantha["Samantha"]
     Garth["Garth"]
-    Kuldesh["Kuldesh&lt;br/&gt;&lt;small&gt;1 received a box of heroin&lt;/small&gt;"]
+    Kuldesh["Kuldesh"]
     Nina["Nina"]
   end
 
   subgraph right[" "]
     direction TB
-    Caroline["Caroline"]
-    Connie["Connie"]
     Ibrahim["Ibrahim"]
     Stephen["Stephen"]
     Elizabeth["Elizabeth"]
   end
+
+  MitchNote --- Mitch
+  KuldeshNote --- Kuldesh
 
   Caroline --&gt;|kill| DomHolt
   Caroline --&gt; Mitch
@@ -168,15 +176,15 @@ flowchart TB
 
   classDef pension fill:#bfe8bf,stroke:#5a8a5a,color:#1a1f28
   classDef collector fill:#d4c5e8,stroke:#7a6a9a,color:#1a1f28
-  classDef kuldesh fill:#9fd4d4,stroke:#4a9090,color:#1a1f28
   classDef other fill:#c5d4ef,stroke:#6a7a9a,color:#1a1f28
   classDef caroline fill:#9ec5f5,stroke:#4a7a9a,color:#1a1f28
+  classDef annotation fill:transparent,stroke:transparent,color:#9aa3b5
 
   class Connie,Ibrahim,Stephen,Elizabeth pension
-  class Samantha,Garth,Nina collector
-  class Kuldesh kuldesh
+  class Samantha,Garth,Nina,Kuldesh collector
   class DomHolt,Mitch,Luca,Police other
   class Caroline caroline
+  class MitchNote,KuldeshNote annotation
             </pre>
           </div>
         </section>
