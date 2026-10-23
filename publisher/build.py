@@ -17,6 +17,13 @@ CONTENT_DIR = ROOT / "content"
 DATA_DIR = ROOT / "data"
 TEMPLATES_DIR = ROOT / "templates"
 
+INTERACTIVE_WIDGETS: dict[str, dict[str, str]] = {
+    "dumpling-assembly-line": {
+        "partial": "interactive/dumpling-assembly-line.html.j2",
+        "script": "js/dumpling-assembly-line.js",
+    },
+}
+
 
 @dataclass
 class SpoilerChart:
@@ -39,7 +46,27 @@ class Post:
     page_class: str
     meta_tags: list[str]
     subtitle: str | None
+    lead: str | None = None
+    interactive: str | None = None
     chart: SpoilerChart | None = None
+
+    @property
+    def interactive_partial(self) -> str | None:
+        if not self.interactive:
+            return None
+        widget = INTERACTIVE_WIDGETS.get(self.interactive)
+        if not widget:
+            raise ValueError(f"Unknown interactive widget: {self.interactive}")
+        return widget["partial"]
+
+    @property
+    def interactive_script(self) -> str | None:
+        if not self.interactive:
+            return None
+        widget = INTERACTIVE_WIDGETS.get(self.interactive)
+        if not widget:
+            return None
+        return widget["script"]
 
     @property
     def date_display(self) -> str:
@@ -127,6 +154,8 @@ def load_post(path: Path, section: str) -> Post:
         page_class=meta.get("page_class", "page--post"),
         meta_tags=meta.get("tags") or [],
         subtitle=meta.get("subtitle"),
+        lead=meta.get("lead"),
+        interactive=meta.get("interactive"),
         chart=_load_chart(meta),
     )
 

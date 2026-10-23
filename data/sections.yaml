@@ -32,6 +32,7 @@ nom:
   title: nom
   theme_class: theme-nom
   meta_description: nom — food I cook and eat.
+  meta_tags_after_date: true
   lead: >
     A running log of what hits the pan, what hits the plate, and what
     definitely hit my macros sideways.

@@ -33,24 +33,42 @@
           <p class="post-meta">
             <a class="post-meta__section" href="{{ section.post_footer_href }}">{{ section_id }}</a>
             <span class="post-meta__sep" aria-hidden="true">·</span>
+            {% if section.get('meta_tags_after_date') %}
+            <time datetime="{{ post.date_iso }}">{{ post.date_display }}</time>
+            {% for tag in post.meta_tags %}
+            <span class="post-meta__sep" aria-hidden="true">·</span>
+            <span>{{ tag }}</span>
+            {% endfor %}
+            {% else %}
             {% for tag in post.meta_tags %}
             <span>{{ tag }}</span>
             <span class="post-meta__sep" aria-hidden="true">·</span>
             {% endfor %}
             <time datetime="{{ post.date_iso }}">{{ post.date_display }}</time>
+            {% endif %}
           </p>
           {% if post.post_vibe %}
           <p class="post-vibe">{{ post.post_vibe }}</p>
           {% endif %}
           <h1>{{ post.title }}</h1>
+          {% if post.lead %}
+          <p class="lead">{{ post.lead }}</p>
+          {% endif %}
           {% if post.subtitle %}
           <p class="post-meta post-meta--sub">{{ post.subtitle | safe }}</p>
           {% endif %}
         </header>
 
+        {% if post.interactive_partial %}
+        {% include post.interactive_partial %}
+        <div class="post-body post-body--after">
+          {{ post.body_html | safe }}
+        </div>
+        {% else %}
         <div class="post-body">
           {{ post.body_html | safe }}
         </div>
+        {% endif %}
 
         {% if post.chart %}
         <div class="spoiler-gate">
@@ -80,6 +98,9 @@
     <footer class="site-footer">
       <a href="{{ section.post_footer_href }}">{{ section.post_footer_label }}</a>
     </footer>
+    {% if post.interactive_script %}
+    <script src="{{ assets_prefix }}{{ post.interactive_script }}"></script>
+    {% endif %}
     {% if post.chart %}
     <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
     <script>
