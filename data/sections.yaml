@@ -1,0 +1,59 @@
+ramble:
+  title: ramble
+  theme_class: theme-ramble
+  meta_description: ramble — takes on random things and fun experiences.
+  lead: >
+    Opinions nobody asked for, small adventures worth remembering, and
+    the occasional tangent that somehow lands.
+  index_output: ramble.html
+  post_subdirectory: ramble
+  active_nav: ramble
+  footer_back_href: index.html
+  footer_back_label: "← All modules"
+  post_footer_href: ../ramble.html
+  post_footer_label: "← All rambles"
+
+looksie:
+  title: looksie
+  theme_class: theme-looksie
+  meta_description: looksie — books, shows, and films.
+  lead: >
+    Books, series, and films — what stuck, what didn't, and the occasional
+    spoiler-heavy chart.
+  index_output: looksie.html
+  post_subdirectory: looksie
+  active_nav: looksie
+  footer_back_href: index.html
+  footer_back_label: "← All modules"
+  post_footer_href: ../looksie.html
+  post_footer_label: "← All looksies"
+
+nom:
+  title: nom
+  theme_class: theme-nom
+  meta_description: nom — food I cook and eat.
+  lead: >
+    A running log of what hits the pan, what hits the plate, and what
+    definitely hit my macros sideways.
+  index_output: nom.html
+  post_subdirectory: nom
+  active_nav: nom
+  footer_back_href: index.html
+  footer_back_label: "← All modules"
+  post_footer_href: ../nom.html
+  post_footer_label: "← All noms"
+
+stomp:
+  title: stomp
+  theme_class: theme-stomp
+  meta_description: stomp — sports I do.
+  lead: >
+    Training logs, race recaps, and proof that endorphins are just spicy
+    denial.
+  index_output: stomp.html
+  post_subdirectory: stomp
+  active_nav: stomp
+  footer_back_href: index.html
+  footer_back_label: "← All modules"
+  post_footer_href: ../stomp.html
+  post_footer_label: "← All stomps"
