@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin · meowoo publisher</title>
+    <link rel="stylesheet" href="/static/admin.css" />
+  </head>
+  <body>
+    <header class="admin-header">
+      <h1>meowoo publisher</h1>
+      <form method="post" action="/logout">
+        <button type="submit" class="secondary">Log out</button>
+      </form>
+    </header>
+    <main class="admin-card">
+      <p class="muted">
+        GitHub push:
+        {% if github_enabled %}enabled{% else %}off (set GITHUB_TOKEN in .env){% endif %}
+      </p>
+      <p>Sections: {{ sections | join(", ") }}</p>
+      <p><a href="/admin/new">Write a new post →</a></p>
+    </main>
+  </body>
+</html>

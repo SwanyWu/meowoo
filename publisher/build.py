@@ -161,6 +161,23 @@ def write_if_changed(path: Path, content: str) -> bool:
     return True
 
 
+def collect_section_build_outputs(section: str) -> dict[str, str]:
+    """Render all post pages and section index for GitHub commit."""
+    sections = load_sections()
+    if section not in sections:
+        raise ValueError(f"Unknown section: {section}")
+
+    outputs: dict[str, str] = {}
+    posts = discover_posts(section)
+    for post in posts:
+        rel = post.output_path.relative_to(ROOT).as_posix()
+        outputs[rel] = render_post(post)
+
+    index_path = ROOT / sections[section]["index_output"]
+    outputs[index_path.relative_to(ROOT).as_posix()] = render_section_index(section, posts)
+    return outputs
+
+
 def build_section(section: str, dry_run: bool = False) -> list[Path]:
     sections = load_sections()
     if section not in sections:
