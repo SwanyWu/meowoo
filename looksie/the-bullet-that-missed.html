@@ -158,8 +158,8 @@ flowchart TB
   KuldeshNote --- Kuldesh
 
   Caroline --&gt;|kill| DomHolt
-  Caroline --&gt; Mitch
-  Caroline --&gt; Samantha
+  Caroline --&gt;|kill| Mitch
+  Caroline --&gt;|kill| Samantha
   Caroline --&gt;|hitwoman| Connie
 
   Luca --&gt;|5 search for heroin| Police
@@ -177,13 +177,11 @@ flowchart TB
   classDef pension fill:#bfe8bf,stroke:#5a8a5a,color:#1a1f28
   classDef collector fill:#d4c5e8,stroke:#7a6a9a,color:#1a1f28
   classDef other fill:#c5d4ef,stroke:#6a7a9a,color:#1a1f28
-  classDef caroline fill:#9ec5f5,stroke:#4a7a9a,color:#1a1f28
   classDef annotation fill:transparent,stroke:transparent,color:#9aa3b5
 
-  class Connie,Ibrahim,Stephen,Elizabeth pension
+  class Ibrahim,Stephen,Elizabeth pension
   class Samantha,Garth,Nina,Kuldesh collector
-  class DomHolt,Mitch,Luca,Police other
-  class Caroline caroline
+  class Caroline,Connie,DomHolt,Mitch,Luca,Police other
   class MitchNote,KuldeshNote annotation
             </pre>
           </div>
