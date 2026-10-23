@@ -1,90 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ page_title }} · meowoo publisher</title>
-    <link rel="stylesheet" href="/static/admin.css" />
-  </head>
-  <body>
-    <header class="admin-header">
-      <h1>{{ header_title }}</h1>
-      <a href="/admin">← Dashboard</a>
-    </header>
-    <main class="admin-card admin-card--wide">
-      {% if error %}
-      <p class="error">{{ error }}</p>
-      {% endif %}
-      {% if success %}
-      <p class="success">{{ success }}</p>
-      {% endif %}
-      <form method="post" action="{{ form_action }}">
-        {% if edit_mode %}
-        <input type="hidden" name="original_section" value="{{ original_section }}" />
-        <input type="hidden" name="original_slug" value="{{ original_slug }}" />
+{% extends "layout.html.j2" %}
+{% block title %}{{ page_title }}{% endblock %}
+{% block content %}
+    <main class="page page--section">
+      <article class="admin-panel admin-panel--wide">
+        <p class="admin-breadcrumb"><a href="/admin">← Dashboard</a></p>
+        <h1>{{ header_title }}</h1>
+        {% if error %}
+        <p class="admin-error">{{ error }}</p>
         {% endif %}
-        <div class="grid">
-          <label>
-            Section
-            {% if edit_mode %}
-            <input type="hidden" name="section" value="{{ original_section }}" />
-            <input type="text" value="{{ original_section }}" disabled />
-            {% else %}
-            <select name="section">
-              {% for s in sections %}
-              <option value="{{ s }}" {% if form and form.section == s %}selected{% endif %}>{{ s }}</option>
-              {% endfor %}
-            </select>
-            {% endif %}
-          </label>
-          <label>
-            Date
-            <input type="date" name="post_date" value="{{ form.post_date if form else today }}" required />
-          </label>
-        </div>
-        <label>
-          Title
-          <input type="text" name="title" value="{{ form.title if form else '' }}" required />
-        </label>
-        <label>
-          Slug (optional)
-          <input type="text" name="slug" placeholder="auto-from-title" value="{{ form.slug if form else '' }}" />
-        </label>
-        <label>
-          Excerpt (index card)
-          <input type="text" name="excerpt" value="{{ form.excerpt if form else '' }}" required />
-        </label>
-        <label>
-          Meta description (optional)
-          <input type="text" name="description" value="{{ form.description if form else '' }}" />
-        </label>
-        <label>
-          Post vibe line (optional, e.g. *sike)
-          <input type="text" name="post_vibe" value="{{ form.post_vibe if form else '' }}" />
-        </label>
-        <label>
-          Body (Markdown)
-          <textarea name="body" rows="18" required>{{ form.body if form else '' }}</textarea>
-        </label>
-        <label class="checkbox">
-          <input type="checkbox" name="push_github" value="on" {% if github_enabled %}checked{% endif %} />
-          Push to GitHub after build
-        </label>
-        <div class="form-actions">
-          <button type="submit">{{ submit_label }}</button>
+        {% if success %}
+        <p class="admin-success">{{ success }}</p>
+        {% endif %}
+        <form method="post" action="{{ form_action }}" class="admin-form">
           {% if edit_mode %}
-          <button
-            type="submit"
-            class="danger"
-            formaction="/admin/delete/{{ original_section }}/{{ original_slug }}"
-            formmethod="post"
-            onclick="return confirm('Delete this post locally{% if github_enabled %} and on GitHub{% endif %}?');"
-          >
-            Delete post
-          </button>
+          <input type="hidden" name="original_section" value="{{ original_section }}" />
+          <input type="hidden" name="original_slug" value="{{ original_slug }}" />
           {% endif %}
-        </div>
-      </form>
+          <div class="admin-grid">
+            <label>
+              Section
+              {% if edit_mode %}
+              <input type="hidden" name="section" value="{{ original_section }}" />
+              <input type="text" value="{{ original_section }}" disabled />
+              {% else %}
+              <select name="section">
+                {% for s in sections %}
+                <option value="{{ s }}" {% if form and form.section == s %}selected{% endif %}>{{ s }}</option>
+                {% endfor %}
+              </select>
+              {% endif %}
+            </label>
+            <label>
+              Date
+              <input type="date" name="post_date" value="{{ form.post_date if form else today }}" required />
+            </label>
+          </div>
+          <label>
+            Title
+            <input type="text" name="title" value="{{ form.title if form else '' }}" required />
+          </label>
+          <label>
+            Slug (optional)
+            <input type="text" name="slug" placeholder="auto-from-title" value="{{ form.slug if form else '' }}" />
+          </label>
+          <label>
+            Excerpt (index card)
+            <input type="text" name="excerpt" value="{{ form.excerpt if form else '' }}" required />
+          </label>
+          <label>
+            Meta description (optional)
+            <input type="text" name="description" value="{{ form.description if form else '' }}" />
+          </label>
+          <label>
+            Post vibe line (optional, e.g. *sike)
+            <input type="text" name="post_vibe" value="{{ form.post_vibe if form else '' }}" />
+          </label>
+          <label>
+            Body (Markdown)
+            <textarea name="body" rows="18" required>{{ form.body if form else '' }}</textarea>
+          </label>
+          <label class="admin-checkbox">
+            <input type="checkbox" name="push_github" value="on" {% if github_enabled %}checked{% endif %} />
+            Push to GitHub after build
+          </label>
+          <div class="admin-form-actions">
+            <button type="submit" class="admin-btn">{{ submit_label }}</button>
+            {% if edit_mode %}
+            <button
+              type="submit"
+              class="admin-btn admin-btn--danger"
+              formaction="/admin/delete/{{ original_section }}/{{ original_slug }}"
+              formmethod="post"
+              onclick="return confirm('Delete this post{% if github_enabled %} on GitHub{% endif %}?');"
+            >
+              Delete post
+            </button>
+            {% endif %}
+          </div>
+        </form>
+      </article>
     </main>
-  </body>
-</html>
+{% endblock %}

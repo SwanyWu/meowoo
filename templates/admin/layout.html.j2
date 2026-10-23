@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Publisher{% endblock %} · meowoo.me</title>
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="stylesheet" href="{{ public_site_url }}/styles.css" />
+    <link rel="stylesheet" href="/static/admin.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="glow" aria-hidden="true"></div>
+    <header class="site-header">
+      <a class="logo" href="{{ public_site_url }}/">meowoo.me</a>
+      <nav class="site-nav" aria-label="Main">
+        <a href="{{ public_site_url }}/nom.html">nom</a>
+        <a href="{{ public_site_url }}/stomp.html">stomp</a>
+        <a href="{{ public_site_url }}/ramble.html">ramble</a>
+        <a href="{{ public_site_url }}/looksie.html">looksie</a>
+      </nav>
+    </header>
+    {% block content %}{% endblock %}
+    <footer class="site-footer">
+      <a href="{{ public_site_url }}/">← Public site</a>
+    </footer>
+  </body>
+</html>

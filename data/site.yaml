@@ -1,0 +1,5 @@
+# Public site (GitHub Pages). Used for admin chrome and CORS.
+public_site_url: https://meowoo.me
+
+# Publisher admin URL — must match Render custom domain for author toolbar cookies.
+admin_public_url: https://admin.meowoo.me

@@ -1,25 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login · meowoo publisher</title>
-    <link rel="stylesheet" href="/static/admin.css" />
-  </head>
-  <body>
-    <main class="admin-card">
-      <h1>meowoo publisher</h1>
-      <p class="muted">Local admin — sign in to publish.</p>
-      {% if error %}
-      <p class="error">{{ error }}</p>
-      {% endif %}
-      <form method="post" action="/login">
-        <label>
-          Password
-          <input type="password" name="password" autocomplete="current-password" required />
-        </label>
-        <button type="submit">Log in</button>
-      </form>
+{% extends "layout.html.j2" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+    <main class="page page--section">
+      <article class="admin-panel">
+        <h1>Publisher login</h1>
+        <p class="lead">Sign in to write and push ramble posts.</p>
+        {% if error %}
+        <p class="admin-error">{{ error }}</p>
+        {% endif %}
+        <form method="post" action="/login" class="admin-form">
+          <label>
+            Password
+            <input type="password" name="password" autocomplete="current-password" required />
+          </label>
+          <button type="submit" class="admin-btn">Log in</button>
+        </form>
+      </article>
     </main>
-  </body>
-</html>
+{% endblock %}

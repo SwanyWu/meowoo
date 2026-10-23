@@ -1,52 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin · meowoo publisher</title>
-    <link rel="stylesheet" href="/static/admin.css" />
-  </head>
-  <body>
-    <header class="admin-header">
-      <h1>meowoo publisher</h1>
-      <form method="post" action="/logout">
-        <button type="submit" class="secondary">Log out</button>
-      </form>
-    </header>
-    <main class="admin-card admin-card--wide">
-      <p class="muted">
-        GitHub push:
-        {% if github_enabled %}enabled{% else %}off (set GITHUB_TOKEN in .env){% endif %}
-        · Sections: {{ sections | join(", ") }}
-      </p>
-      <p class="toolbar"><a href="/admin/new">Write a new post →</a></p>
+{% extends "layout.html.j2" %}
+{% block title %}Publisher{% endblock %}
+{% block content %}
+    <main class="page page--section">
+      <article class="admin-panel admin-panel--wide">
+        <div class="admin-panel__head">
+          <div>
+            <h1>Publisher</h1>
+            <p class="lead">
+              GitHub push:
+              {% if github_enabled %}on{% else %}off (set GITHUB_TOKEN){% endif %}
+              · Sections: {{ sections | join(", ") }}
+            </p>
+          </div>
+          <form method="post" action="/logout">
+            <button type="submit" class="admin-btn admin-btn--ghost">Log out</button>
+          </form>
+        </div>
+        <p class="admin-toolbar-link"><a href="/admin/new">Write a new post →</a></p>
 
-      {% if posts %}
-      <table class="post-table">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Section</th>
-            <th>Title</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for post in posts %}
-          <tr>
-            <td class="nowrap">{{ post.post_date.isoformat() }}</td>
-            <td>{{ post.section }}</td>
-            <td>{{ post.title }}</td>
-            <td class="actions">
-              <a href="/admin/edit/{{ post.section }}/{{ post.slug }}">Edit</a>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      {% else %}
-      <p class="muted">No posts in content/ yet.</p>
-      {% endif %}
+        {% if posts %}
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Section</th>
+              <th>Title</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for post in posts %}
+            <tr>
+              <td>{{ post.post_date.isoformat() }}</td>
+              <td>{{ post.section }}</td>
+              <td>{{ post.title }}</td>
+              <td><a href="/admin/edit/{{ post.section }}/{{ post.slug }}">Edit</a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p class="lead">No posts in content/ yet.</p>
+        {% endif %}
+      </article>
     </main>
-  </body>
-</html>
+{% endblock %}

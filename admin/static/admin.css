@@ -1,163 +1,130 @@
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: system-ui, -apple-system, sans-serif;
-  background: #0f1218;
-  color: #e8eaf0;
-  line-height: 1.5;
-}
-
-a {
-  color: #7eb8ff;
-}
-
-.admin-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.admin-header h1 {
-  margin: 0;
-  font-size: 1.1rem;
-}
-
-.admin-card {
+.admin-panel {
   max-width: 28rem;
-  margin: 2rem auto;
-  padding: 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  background: #181c26;
+  margin: 0 auto;
+  padding: 0 1.5rem 3rem;
 }
 
-.admin-card--wide {
+.admin-panel--wide {
   max-width: 42rem;
 }
 
-.muted {
-  color: #9aa3b5;
+.admin-panel__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
-.error {
-  color: #ff9f6b;
+.admin-breadcrumb {
+  margin: 0 0 0.5rem;
+  font-size: 0.875rem;
 }
 
-.success {
-  color: #7dffb2;
+.admin-toolbar-link {
+  margin: 1rem 0 1.5rem;
 }
 
-label {
+.admin-error {
+  color: #c94a4a;
+}
+
+.admin-success {
+  color: #3d8b5a;
+}
+
+.admin-form label {
   display: block;
   margin-bottom: 1rem;
   font-size: 0.9rem;
 }
 
-input[type="text"],
-input[type="password"],
-input[type="date"],
-select,
-textarea {
+.admin-form input[type="text"],
+.admin-form input[type="password"],
+.admin-form input[type="date"],
+.admin-form select,
+.admin-form textarea {
   display: block;
   width: 100%;
   margin-top: 0.35rem;
   padding: 0.55rem 0.65rem;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: #0f1218;
+  border: 1px solid var(--border);
+  background: var(--surface, #181c26);
   color: inherit;
   font: inherit;
 }
 
-textarea {
+.admin-form textarea {
   font-family: ui-monospace, monospace;
   font-size: 0.85rem;
 }
 
-.grid {
+.admin-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
 
-.checkbox {
+.admin-checkbox {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-.checkbox input {
+.admin-checkbox input {
   width: auto;
   margin: 0;
 }
 
-button {
+.admin-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.admin-btn {
   padding: 0.55rem 1rem;
   border-radius: 999px;
   border: none;
-  background: #ff9f6b;
+  background: var(--accent, #ff9f6b);
   color: #1a1f28;
   font-weight: 600;
   cursor: pointer;
 }
 
-button.secondary {
+.admin-btn--ghost {
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #e8eaf0;
+  border: 1px solid var(--border);
+  color: inherit;
 }
 
-button.danger {
+.admin-btn--danger {
   background: #c94a4a;
   color: #fff;
 }
 
-.form-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  align-items: center;
-}
-
-.toolbar {
-  margin: 0 0 1.25rem;
-}
-
-.post-table {
+.admin-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.9rem;
 }
 
-.post-table th,
-.post-table td {
+.admin-table th,
+.admin-table td {
   text-align: left;
   padding: 0.5rem 0.65rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--border);
 }
 
-.post-table th {
-  color: #9aa3b5;
-  font-weight: 600;
+.admin-table th {
+  color: var(--muted);
 }
 
-.post-table .actions {
+.admin-table td:last-child {
   text-align: right;
-  white-space: nowrap;
-}
-
-.nowrap {
-  white-space: nowrap;
 }
 
 input:disabled {
   opacity: 0.7;
-  cursor: not-allowed;
 }

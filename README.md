@@ -93,3 +93,15 @@ The public site stays on **GitHub Pages**. Render runs only the **publisher admi
 **Important on Render:** The server disk is ephemeral. Always publish with **Push to GitHub** checked so commits land on `main`; otherwise changes disappear on restart.
 
 Free tier services **spin down** when idle; the first visit after sleep may take ~30s.
+
+## Author toolbar (edit on the public site)
+
+When you’re logged in on the **admin subdomain**, a bottom bar on **meowoo.me** offers Dashboard / New post / Edit (ramble only unless you widen `PUBLISH_SECTIONS`). Visitors never see it.
+
+1. **`data/site.yaml`** — set `admin_public_url` to your admin host (e.g. `https://admin.meowoo.me`).
+2. **Render** — custom domain **`admin.meowoo.me`**, env **`SESSION_COOKIE_DOMAIN=.meowoo.me`**, **`PUBLIC_SITE_URL=https://meowoo.me`**.
+3. **DNS** — CNAME `admin` → Render (separate from GitHub Pages).
+4. Rebuild static HTML (`python -m publisher.build --all`) and push so pages include `js/admin-bar.js`.
+5. Log in at **`https://admin.meowoo.me/login`**, then browse **`https://meowoo.me`**.
+
+The toolbar does **not** work with only `*.onrender.com` and `meowoo.me` together (cross-site cookies). Use **`admin.meowoo.me`**.

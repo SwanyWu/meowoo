@@ -1109,3 +1109,35 @@ h1 {
     width: 100%;
   }
 }
+
+/* Shown only when logged in to the publisher (see js/admin-bar.js). */
+.author-toolbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  justify-content: center;
+  padding: 0.65rem 1rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  background: rgba(15, 18, 24, 0.92);
+  border-top: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+}
+
+.author-toolbar a {
+  color: var(--accent, #ff9f6b);
+  text-decoration: none;
+}
+
+.author-toolbar a:hover {
+  text-decoration: underline;
+}
+
+body:has(.author-toolbar) {
+  padding-bottom: 3rem;
+}

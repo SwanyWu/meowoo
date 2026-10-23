@@ -25,3 +25,7 @@ services:
         value: main
       - key: PUBLISH_SECTIONS
         value: ramble
+      - key: PUBLIC_SITE_URL
+        value: https://meowoo.me
+      - key: SESSION_COOKIE_DOMAIN
+        value: .meowoo.me

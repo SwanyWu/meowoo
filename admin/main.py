@@ -4,6 +4,7 @@ from datetime import date
 from pathlib import Path
 
 from fastapi import Depends, FastAPI, Form, HTTPException, Request
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -38,10 +39,21 @@ def settings() -> Settings:
 
 
 _settings = get_settings()
+templates.env.globals["public_site_url"] = _settings.public_site_url
+
 app.add_middleware(
     SessionMiddleware,
     secret_key=_settings.secret_key,
     https_only=_settings.session_https_only,
+    same_site=_settings.session_same_site,
+    domain=_settings.session_cookie_domain,
+)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=list(_settings.cors_origins),
+    allow_credentials=True,
+    allow_methods=["GET", "OPTIONS"],
+    allow_headers=["*"],
 )
 
 
@@ -176,6 +188,13 @@ def _assert_section(cfg: Settings, section: str) -> None:
 @app.get("/health")
 def health() -> dict[str, str]:
     return {"status": "ok"}
+
+
+@app.get("/auth/status")
+def auth_status(request: Request, cfg: Settings = Depends(settings)) -> dict:
+    if not request.session.get("authenticated"):
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    return {"authenticated": True, "sections": list(cfg.publish_sections)}
 
 
 @app.get("/login", response_class=HTMLResponse)

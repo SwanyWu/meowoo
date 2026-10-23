@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import re
 from dataclasses import dataclass
 from datetime import date, datetime
@@ -95,6 +96,18 @@ def load_sections() -> dict:
         return yaml.safe_load(f)
 
 
+def load_site_config() -> dict:
+    path = DATA_DIR / "site.yaml"
+    cfg: dict = {}
+    if path.is_file():
+        cfg = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    if os.getenv("ADMIN_PUBLIC_URL"):
+        cfg["admin_public_url"] = os.getenv("ADMIN_PUBLIC_URL", "").rstrip("/")
+    if os.getenv("PUBLIC_SITE_URL"):
+        cfg["public_site_url"] = os.getenv("PUBLIC_SITE_URL", "").rstrip("/")
+    return cfg
+
+
 def parse_frontmatter(raw: str) -> tuple[dict, str]:
     if not raw.startswith("---"):
         return {}, raw
@@ -182,6 +195,7 @@ def render_post(post: Post) -> str:
     env = jinja_env()
     tpl = env.get_template("post.html.j2")
     meta_description = post.description or f"{post.title} · {post.section} · meowoo.me"
+    site = load_site_config()
     return tpl.render(
         post=post,
         section=cfg,
@@ -189,6 +203,7 @@ def render_post(post: Post) -> str:
         meta_description=meta_description,
         assets_prefix="../",
         root_prefix="../",
+        admin_public_url=site.get("admin_public_url"),
     )
 
 
@@ -197,6 +212,7 @@ def render_section_index(section: str, posts: list[Post]) -> str:
     cfg = sections[section]
     env = jinja_env()
     tpl = env.get_template("section_index.html.j2")
+    site = load_site_config()
     return tpl.render(
         section=cfg,
         section_id=section,
@@ -204,6 +220,7 @@ def render_section_index(section: str, posts: list[Post]) -> str:
         meta_description=cfg["meta_description"],
         assets_prefix="",
         root_prefix="",
+        admin_public_url=site.get("admin_public_url"),
     )
 
 
