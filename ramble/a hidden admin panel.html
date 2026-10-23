@@ -51,11 +51,13 @@
         
         <div class="post-body">
           <p>Today the site changed from hand-editing HTML to a small publishing pipeline.</p>
-<p>Ramble (and later looksie and nom) use Markdown under <code>content/</code>. A Python build step turns those files into the static HTML GitHub Pages serves. The Markdown is the source of truth; HTML is rebuilt and committed.</p>
-<p>There is a password-protected publisher app on Render (custom hostname on my domain). It creates or updates Markdown, runs the build, and can push a single commit to GitHub. Secrets live in the host environment, not in the repo.</p>
-<p>The public site stays on GitHub Pages. The publisher is a separate HTTPS app. When I am logged in, a small script on public pages can show edit links; everyone else sees normal pages.</p>
+<p><strong>Phase 1 — Markdown → HTML</strong>
+Ramble (and later looksie and nom) use Markdown under <code>content/</code>. A Python build step turns those files into the static HTML GitHub Pages serves. The Markdown is the source of truth; HTML is rebuilt and committed.</p>
+<p><strong>Phase 2 — Publisher admin</strong><br>
+There is a password-protected publisher app on Render (custom hostname on my domain). It creates or updates Markdown, runs the build, and can push a single commit to GitHub. Secrets live in the host environment, not in the repo. (I did this to practice FastAPI)</p>
+<p><strong>Local → cloud</strong>
+The public site stays on GitHub Pages. The publisher is a separate HTTPS app. When I am logged in, a small script on public pages can show edit links; everyone else sees normal pages.</p>
 <p>Looksie posts can include spoiler-gated diagrams; nom has an interactive widget—both wired into the same build. The web UI is still easiest for ramble.</p>
-<p>Optional later: one host for everything. For now the split is intentional.</p>
         </div>
         
 
